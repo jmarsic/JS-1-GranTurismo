@@ -51,19 +51,8 @@ const cars = [
 
 // console.log(cars);
 
-// for (car of cars) {
-//   console.log(car.color);
-// }
-
 //1. sortorat niz auta po godinama, ispisat novi niz
 
-function sortCarsByYear() {
-  const carsByYear = cars.sort((car) => {
-    car.yearOfManufacture;
-  });
-  return carsByYear;
-}
-console.log(sortCarsByYear());
 // const years = cars.map((car) => {
 //   return car.yearOfManufacture;
 // });
@@ -73,36 +62,12 @@ console.log(sortCarsByYear());
 // });
 
 //2. pronac prvi automobil odgovarajuce boje, ispisat cijeli objekt auta
-//4. novi niz koji sadrzava automobile samo odredene boje, ispisat novi niz
-//5. pretty print
-//6. isprintat aute koji su prozvedeni izmedju 2 poslana parametra godina, ispisat novi niz
-//7. dodavanje novog automobila preko prompta
-
-//8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
-function printMaxHp() {
-  const average = averageHorsepower();
-  let maxHp = 0;
-  let carWithMaxHp;
-
-  for (let car of cars) {
-    if (car.horsepower > maxHp) {
-      maxHp = car.horsepower;
-    }
-  }
-  for (let car in cars) {
-    carWithMaxHp = cars.find((car) => {
-      return car.horsepower === maxHp;
-    });
-  }
-  console.log(average, carWithMaxHp);
+function findByColor(color) {
+  const result = cars.find((car) => car.color === color);
+  return result;
 }
 
-printMaxHp();
-
-//9. napravit novi niz ferarija, formatirat tako da ubacimo povlake
-
-// const printCars = [`Marka: fiat`, `Marka: golf`];
-// console.log(printCars);
+console.log("Result of findByColor function:", findByColor("Crna"));
 
 //3. provjerit postoji li auto koji ima vise od prosjecne KS
 function averageHorsepower() {
@@ -125,4 +90,71 @@ function isHpBiggerThenAverage() {
   return false;
 }
 
-console.log(isHpBiggerThenAverage());
+console.log(
+  "Result of function isHpBiggerThenAverage:",
+  isHpBiggerThenAverage()
+);
+
+//4. novi niz koji sadrzava automobile samo odredene boje, ispisat novi niz
+function haveSameColor(color) {
+  const sameColorCars = [];
+  for (car of cars) {
+    if (car.color === color) sameColorCars.push(car);
+    else continue;
+  }
+  return sameColorCars;
+}
+
+console.log("Result of function haveSameColor:", haveSameColor("Plava"));
+
+//5. pretty print
+function prettyPrint(car) {
+  const prettyCars = [];
+  for (car of cars) {
+    prettyCars.push(`Manufacturer: ${car.manufacturer}, Model: ${car.model}, Year: ${car.yearOfManufacture}, 
+    Country: ${car.countryOfOrigin}, Color: ${car.color}, HP: ${car.horsepower}`);
+  }
+  return prettyCars;
+}
+
+console.log(prettyPrint(cars));
+
+//6. isprintat aute koji su prozvedeni izmedju 2 poslana parametra godina, ispisat novi niz
+//7. dodavanje novog automobila preko prompta
+
+//8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
+function printMaxHp() {
+  const average = averageHorsepower();
+  let maxHp = 0;
+  let carWithMaxHp;
+
+  for (let car of cars) {
+    if (car.horsepower > maxHp) {
+      maxHp = car.horsepower;
+    }
+  }
+  for (let car in cars) {
+    carWithMaxHp = cars.find((car) => {
+      return car.horsepower === maxHp;
+    });
+  }
+  console.log(
+    `Average HP is ${average}, and car with most HP is:`,
+    carWithMaxHp
+  );
+}
+
+printMaxHp();
+
+//9. napravit novi niz ferarija, formatirat tako da ubacimo povlake
+const ferraris = ["458 Italia", "F355", "250 GTO", "458 Speciale"];
+
+const ferrariString = ferraris.toString();
+console.log(ferrariString);
+const ferrArr = ferrariString.split("");
+// console.log(ferrArr);
+
+const noviNiz = ferrArr.map((char) => {
+  return `${char}-`;
+});
+console.log(noviNiz);
