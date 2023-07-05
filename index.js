@@ -164,14 +164,27 @@ function printMaxHp() {
 printMaxHp();
 
 //9. napravit novi niz ferarija, formatirat tako da ubacimo povlake
-const ferraris = ["458 Italia", "F355", "250 GTO", "458 Speciale"];
+const ferraris = ["458 Italia", "F355", "250 GTO", "Daytona SP3", "308 GTB"];
 
-const ferrariString = ferraris.toString();
-console.log(ferrariString);
-const ferrArr = ferrariString.split("");
-// console.log(ferrArr);
+function printMinus() {
+  const minusFerraris = [];
+  for (car of ferraris) {
+    let newFerrari = "";
+    let length = 0;
+    for (char of car) {
+      length++;
+    }
+    for (i = 0; i < length; i++) {
+      if (i === length - 1) {
+        newFerrari += `${car[i]}`;
+        minusFerraris.push(newFerrari);
+        break;
+      }
+      newFerrari += `${car[i]}-`;
+    }
+  }
 
-const noviNiz = ferrArr.map((char) => {
-  return `${char}-`;
-});
-console.log(noviNiz);
+  console.log(minusFerraris);
+}
+
+printMinus();
