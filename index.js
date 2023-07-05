@@ -49,17 +49,19 @@ const cars = [
   },
 ];
 
-// console.log(cars);
-
 //1. sortorat niz auta po godinama, ispisat novi niz
+function sortArray() {
+  const sortedCars = [...cars];
+  sortedCars.sort(sortByYear);
+  return sortedCars;
+}
 
-// const years = cars.map((car) => {
-//   return car.yearOfManufacture;
-// });
+function sortByYear(a, b) {
+  return a.yearOfManufacture - b.yearOfManufacture;
+}
 
-// const result = years.sort((a, b) => {
-//   return a - b;
-// });
+console.log("Sorted array:", sortArray());
+console.log("Original array:", cars);
 
 //2. pronac prvi automobil odgovarajuce boje, ispisat cijeli objekt auta
 function findByColor(color) {
