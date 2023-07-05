@@ -57,7 +57,7 @@ function sortArray() {
 }
 
 function sortByYear(a, b) {
-  return a.yearOfManufacture - b.yearOfManufacture;
+  return b.yearOfManufacture - a.yearOfManufacture;
 }
 
 console.log("Sorted array:", sortArray());
@@ -122,6 +122,21 @@ function prettyPrint(car) {
 console.log(prettyPrint(cars));
 
 //6. isprintat aute koji su prozvedeni izmedju 2 poslana parametra godina, ispisat novi niz
+function producedBetween(producedFrom, producedUpTo) {
+  const carsProducedBetween = [];
+  for (car of cars) {
+    if (
+      car.yearOfManufacture >= producedFrom &&
+      car.yearOfManufacture <= producedUpTo
+    ) {
+      carsProducedBetween.push(car);
+    }
+  }
+  return carsProducedBetween;
+}
+
+console.log("Produced between:", producedBetween(2008, 2014));
+
 //7. dodavanje novog automobila preko prompta
 
 //8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
