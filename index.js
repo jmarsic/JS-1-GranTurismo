@@ -3,48 +3,48 @@ const cars = [
     manufacturer: "Fiat",
     model: "Punto",
     yearOfManufacture: 1998,
-    countryOfOrigin: "Italija",
-    color: "Plava",
+    countryOfOrigin: "Italy",
+    color: "Blue",
     horsepower: 55,
   },
   {
     manufacturer: "Ford",
     model: "Fiesta",
     yearOfManufacture: 2014,
-    countryOfOrigin: "Amerika",
-    color: "Crna",
+    countryOfOrigin: "America",
+    color: "Black",
     horsepower: 95,
   },
   {
     manufacturer: "Renault",
     model: "Megan",
     yearOfManufacture: 2008,
-    countryOfOrigin: "Francuska",
-    color: "Crna",
+    countryOfOrigin: "France",
+    color: "Black",
     horsepower: 112,
   },
   {
     manufacturer: "Skoda",
     model: "Fabia",
     yearOfManufacture: 2016,
-    countryOfOrigin: "Ceska",
-    color: "Plava",
+    countryOfOrigin: "Czech",
+    color: "Blue",
     horsepower: 95,
   },
   {
     manufacturer: "Renault",
     model: "4",
     yearOfManufacture: 1987,
-    countryOfOrigin: "Francuska",
-    color: "Bijela",
+    countryOfOrigin: "France",
+    color: "White",
     horsepower: 34,
   },
   {
     manufacturer: "Volkswagen",
     model: "Golf GTI",
     yearOfManufacture: 1990,
-    countryOfOrigin: "Njemacka",
-    color: "Crvena",
+    countryOfOrigin: "Germany",
+    color: "Red",
     horsepower: 110,
   },
 ];
@@ -69,7 +69,7 @@ function findByColor(color) {
   return result;
 }
 
-console.log("Result of findByColor function:", findByColor("Crna"));
+console.log("Result of findByColor function:", findByColor("Black"));
 
 //3. provjerit postoji li auto koji ima vise od prosjecne KS
 function averageHorsepower() {
@@ -107,7 +107,7 @@ function haveSameColor(color) {
   return sameColorCars;
 }
 
-console.log("Result of function haveSameColor:", haveSameColor("Plava"));
+console.log("Result of function haveSameColor:", haveSameColor("Blue"));
 
 //5. pretty print
 function prettyPrint(car) {
@@ -138,6 +138,59 @@ function producedBetween(producedFrom, producedUpTo) {
 console.log("Produced between:", producedBetween(2008, 2014));
 
 //7. dodavanje novog automobila preko prompta
+function formatInput(input) {
+  let firstLetter = input.charAt(0).toUpperCase();
+  return firstLetter + input.slice(1);
+}
+
+function addCar() {
+  const carObj = {};
+  const predefinedColors = ["white", "black", "red", "green", "blue"];
+  let carManufacturer = "";
+  let carModel = "";
+  let carYear;
+  let carCountry = "";
+  let carColor = "";
+  let carPower;
+
+  carManufacturer = prompt("Enter car manufacturer:").toLowerCase();
+  carManufacturer = formatInput(carManufacturer);
+  carObj.manufacturer = carManufacturer;
+
+  carModel = prompt("Enter car model:").toLowerCase();
+  carModel = formatInput(carModel);
+  carObj.model = carModel;
+
+  do {
+    carYear = parseInt(prompt("Enter car year:"));
+  } while (isNaN(carYear) || carYear < 1886 || carYear > 2023);
+  carObj.yearOfManufacture = carYear;
+
+  carCountry = prompt("Enter car country of origin:").toLowerCase();
+  carCountry = formatInput(carCountry);
+  carObj.countryOfOrigin = carCountry;
+
+  do {
+    carColor = prompt("Enter car color:").toLowerCase();
+    if (predefinedColors.includes(carColor)) break;
+    else carColor = "";
+  } while (!carColor);
+  carColor = formatInput(carColor);
+  carObj.color = carColor;
+
+  do {
+    carPower = parseInt(prompt("Enter car horsepower:"));
+  } while (carPower < 0 || isNaN(carPower));
+  carObj.horsepower = carPower;
+
+  console.log("Adding:", carObj);
+
+  cars.push(carObj);
+}
+
+addCar();
+
+console.log("New cars array:", cars);
 
 //8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
 function printMaxHp() {
