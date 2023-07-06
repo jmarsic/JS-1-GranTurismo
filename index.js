@@ -60,8 +60,8 @@ function sortByYear(a, b) {
   return b.yearOfManufacture - a.yearOfManufacture;
 }
 
-console.log("Sorted array:", sortArray());
 console.log("Original array:", cars);
+console.log("Sorted array:", sortArray());
 
 //2. pronac prvi automobil odgovarajuce boje, ispisat cijeli objekt auta
 function findByColor(color) {
@@ -113,8 +113,12 @@ console.log("Result of function haveSameColor:", haveSameColor("Blue"));
 function prettyPrint(car) {
   const prettyCars = [];
   for (car of cars) {
-    prettyCars.push(`Manufacturer: ${car.manufacturer}, Model: ${car.model}, Year: ${car.yearOfManufacture}, 
-    Country: ${car.countryOfOrigin}, Color: ${car.color}, HP: ${car.horsepower}`);
+    prettyCars.push(`Manufacturer: ${car.manufacturer}
+Model: ${car.model}
+Year: ${car.yearOfManufacture}
+Country: ${car.countryOfOrigin}
+Color: ${car.color}
+HP: ${car.horsepower}`);
   }
   return prettyCars;
 }
