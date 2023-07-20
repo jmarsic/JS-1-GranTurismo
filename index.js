@@ -8,6 +8,14 @@ const cars = [
     horsepower: 55,
   },
   {
+    manufacturer: "Ferrari",
+    model: "312P",
+    yearOfManufacture: 1696,
+    countryOfOrigin: "Italy",
+    color: "Red",
+    horsepower: 320,
+  },
+  {
     manufacturer: "Ford",
     model: "Fiesta",
     yearOfManufacture: 2014,
@@ -24,12 +32,36 @@ const cars = [
     horsepower: 112,
   },
   {
+    manufacturer: "Ferrari",
+    model: "F355",
+    yearOfManufacture: 1994,
+    countryOfOrigin: "Italy",
+    color: "Red",
+    horsepower: 375,
+  },
+  {
     manufacturer: "Skoda",
     model: "Fabia",
     yearOfManufacture: 2016,
     countryOfOrigin: "Czech",
     color: "Blue",
     horsepower: 95,
+  },
+  {
+    manufacturer: "Ferrari",
+    model: "250 GTO",
+    yearOfManufacture: 1962,
+    countryOfOrigin: "Italy",
+    color: "Red",
+    horsepower: 296,
+  },
+  {
+    manufacturer: "Ferrari",
+    model: "Daytona SP3",
+    yearOfManufacture: 2022,
+    countryOfOrigin: "Italy",
+    color: "Red",
+    horsepower: 830,
   },
   {
     manufacturer: "Renault",
@@ -50,18 +82,14 @@ const cars = [
 ];
 
 //1. sortorat niz auta po godinama, ispisat novi niz
-function sortArray() {
+function getSortedCarsByYearOfManufactureDesc() {
   const sortedCars = [...cars];
-  sortedCars.sort(sortByYear);
-  return sortedCars;
+  sortedCars.sort((a, b) => b.yearOfManufacture - a.yearOfManufacture);
+
+  console.log("Sorted array:", sortedCars);
 }
 
-function sortByYear(a, b) {
-  return b.yearOfManufacture - a.yearOfManufacture;
-}
-
-console.log("Original array:", cars);
-console.log("Sorted array:", sortArray());
+getSortedCarsByYearOfManufactureDesc(cars);
 
 //2. pronac prvi automobil odgovarajuce boje, ispisat cijeli objekt auta
 function findByColor(color) {
@@ -72,74 +100,78 @@ function findByColor(color) {
 console.log("Result of findByColor function:", findByColor("Black"));
 
 //3. provjerit postoji li auto koji ima vise od prosjecne KS
-function averageHorsepower() {
-  let average = 0;
-  let sum = 0;
+function getAverageHorsepower() {
+  const sum = cars.reduce((accumulator, car) => {
+    accumulator += car.horsepower;
+    return accumulator;
+  }, 0);
 
-  for (let car of cars) {
-    sum += car.horsepower;
-  }
-  average = sum / cars.length;
+  const average = sum / cars.length;
 
   return average;
 }
 
-function isHpBiggerThenAverage() {
-  const average = averageHorsepower();
-  for (car of cars) {
+function isHpBiggerThanAverage() {
+  const average = getAverageHorsepower();
+  for (const car of cars) {
     if (car.horsepower > average) return true;
   }
   return false;
 }
 
-console.log(
-  "Result of function isHpBiggerThenAverage:",
-  isHpBiggerThenAverage()
-);
+function doesCarWithMoreThanProvidedHorsepowerExist(horsepower) {
+  let result = cars.some((car) => car.horsepower > horsepower);
+  result
+    ? console.log(
+        `In cars collection we have car that has more than ${horsepower} horsepower!`
+      )
+    : console.log(
+        `In cars collection we dont have car that has more than ${horsepower} horsepower...`
+      );
+}
+
+doesCarWithMoreThanProvidedHorsepowerExist(100);
 
 //4. novi niz koji sadrzava automobile samo odredene boje, ispisat novi niz
-function haveSameColor(color) {
-  const sameColorCars = [];
-  for (car of cars) {
-    if (car.color === color) sameColorCars.push(car);
-    else continue;
-  }
-  return sameColorCars;
+function getFilteredCarsByColor(arr, color) {
+  const result = [...arr];
+  console.log(
+    "Filtered cars that have same color: ",
+    result.filter((el) => el.color.toLowerCase().includes(color.toLowerCase()))
+  );
 }
-
-console.log("Result of function haveSameColor:", haveSameColor("Blue"));
+getFilteredCarsByColor(cars, "blACK");
 
 //5. pretty print
-function prettyPrint(car) {
-  const prettyCars = [];
-  for (car of cars) {
-    prettyCars.push(`Manufacturer: ${car.manufacturer}
-Model: ${car.model}
-Year: ${car.yearOfManufacture}
-Country: ${car.countryOfOrigin}
-Color: ${car.color}
-HP: ${car.horsepower}`);
-  }
-  return prettyCars;
+function prettyPrinting() {
+  const carsDetailInformations = cars.map(
+    (car) =>
+      `Manufacturer: ${car.manufacturer}, Model: ${car.model}, YearOfManufacture: ${car.yearOfManufacture}, CountryOfOrigin: ${car.countryOfOrigin}, Color: ${car.color}, Horsepower: ${car.horsepower}.`
+  );
+
+  carsDetailInformations.forEach((car) => console.log(car));
 }
 
-console.log(prettyPrint(cars));
+prettyPrinting(cars);
 
 //6. isprintat aute koji su prozvedeni izmedju 2 poslana parametra godina, ispisat novi niz
-function producedBetween(producedFrom, producedUpTo) {
-  const carsProducedBetween = [];
-  for (car of cars) {
-    if (
-      car.yearOfManufacture >= producedFrom &&
-      car.yearOfManufacture <= producedUpTo
-    ) {
-      carsProducedBetween.push(car);
-    }
-  }
-  return carsProducedBetween;
+function filterCarsByYearOfManufacture(manufacturedFrom, manufacturedUpTo) {
+  const carsManufacturedBetweenYears = cars.filter((car) => {
+    return (
+      car.yearOfManufacture >= manufacturedFrom &&
+      car.yearOfManufacture <= manufacturedUpTo
+    );
+  });
+  console.log(
+    "Manufactured between",
+    manufacturedFrom,
+    "and",
+    manufacturedUpTo,
+    carsManufacturedBetweenYears
+  );
 }
 
-console.log("Produced between:", producedBetween(2008, 2014));
+filterCarsByYearOfManufacture(2008, 2014);
 
 //7. dodavanje novog automobila preko prompta
 function formatInput(input) {
@@ -192,13 +224,13 @@ function addCar() {
   cars.push(carObj);
 }
 
-addCar();
+// addCar();
 
 console.log("New cars array:", cars);
 
 //8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
 function printMaxHp() {
-  const average = averageHorsepower();
+  const average = getAverageHorsepower();
   let maxHp = 0;
   let carWithMaxHp;
 
@@ -213,7 +245,7 @@ function printMaxHp() {
     });
   }
   console.log(
-    `Average HP is ${average}, and car with most HP is:`,
+    `Average horsepower is ${average}, and car with most HP is:`,
     carWithMaxHp
   );
 }
@@ -221,27 +253,14 @@ function printMaxHp() {
 printMaxHp();
 
 //9. napravit novi niz ferarija, formatirat tako da ubacimo povlake
-const ferraris = ["458 Italia", "F355", "250 GTO", "Daytona SP3", "308 GTB"];
+function formatFerrariCarNames() {
+  const ferraris = cars.filter((car) => car.manufacturer === "Ferrari");
 
-function printMinus() {
-  const minusFerraris = [];
-  for (car of ferraris) {
-    let newFerrari = "";
-    let length = 0;
-    for (char of car) {
-      length++;
-    }
-    for (i = 0; i < length; i++) {
-      if (i === length - 1) {
-        newFerrari += `${car[i]}`;
-        minusFerraris.push(newFerrari);
-        break;
-      }
-      newFerrari += `${car[i]}-`;
-    }
-  }
+  const ferrariDashedNames = ferraris.map((ferrari) => {
+    return ferrari.model.split("").join("-");
+  });
 
-  console.log(minusFerraris);
+  console.log(ferrariDashedNames);
 }
 
-printMinus();
+formatFerrariCarNames();
