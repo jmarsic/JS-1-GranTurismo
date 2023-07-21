@@ -101,22 +101,14 @@ console.log("Result of findByColor function:", findByColor("Black"));
 
 //3. provjerit postoji li auto koji ima vise od prosjecne KS
 function getAverageHorsepower() {
-  const sum = cars.reduce((accumulator, car) => {
-    accumulator += car.horsepower;
+  const sum = cars.reduce((accumulator, current) => {
+    accumulator += current.horsepower;
     return accumulator;
   }, 0);
 
   const average = sum / cars.length;
 
   return average;
-}
-
-function isHpBiggerThanAverage() {
-  const average = getAverageHorsepower();
-  for (const car of cars) {
-    if (car.horsepower > average) return true;
-  }
-  return false;
 }
 
 function doesCarWithMoreThanProvidedHorsepowerExist(horsepower) {
@@ -174,83 +166,93 @@ function filterCarsByYearOfManufacture(manufacturedFrom, manufacturedUpTo) {
 filterCarsByYearOfManufacture(2008, 2014);
 
 //7. dodavanje novog automobila preko prompta
-function formatInput(input) {
-  let firstLetter = input.charAt(0).toUpperCase();
-  return firstLetter + input.slice(1);
+function capitalize(string) {
+  const lowerCased = string.toLowerCase();
+  const firstLetter = lowerCased.charAt(0).toUpperCase();
+
+  return firstLetter + lowerCased.slice(1);
 }
 
 function addCar() {
-  const carObj = {};
-  const predefinedColors = ["white", "black", "red", "green", "blue"];
-  let carManufacturer = "";
-  let carModel = "";
-  let carYear;
-  let carCountry = "";
-  let carColor = "";
-  let carPower;
+  const predefinedColors = ["White", "Black", "Red", "Green", "Blue"];
+  let yearOfManufacture;
+  let color;
+  let horsepower;
 
-  carManufacturer = prompt("Enter car manufacturer:").toLowerCase();
-  carManufacturer = formatInput(carManufacturer);
-  carObj.manufacturer = carManufacturer;
+  const manufacturer = capitalize(prompt("Enter car manufacturer:"));
 
-  carModel = prompt("Enter car model:").toLowerCase();
-  carModel = formatInput(carModel);
-  carObj.model = carModel;
+  const model = capitalize(prompt("Enter car model:"));
 
   do {
-    carYear = parseInt(prompt("Enter car year:"));
-  } while (isNaN(carYear) || carYear < 1886 || carYear > 2023);
-  carObj.yearOfManufacture = carYear;
+    yearOfManufacture = parseInt(prompt("Enter car year:"));
 
-  carCountry = prompt("Enter car country of origin:").toLowerCase();
-  carCountry = formatInput(carCountry);
-  carObj.countryOfOrigin = carCountry;
+    if (
+      isNaN(yearOfManufacture) ||
+      yearOfManufacture < 1886 ||
+      yearOfManufacture > 2023
+    )
+      alert("Year must be a number between 1886 and 2023.");
+  } while (
+    isNaN(yearOfManufacture) ||
+    yearOfManufacture < 1886 ||
+    yearOfManufacture > 2023
+  );
+
+  const countryOfOrigin = capitalize(prompt("Enter car country of origin:"));
 
   do {
-    carColor = prompt("Enter car color:").toLowerCase();
-    if (predefinedColors.includes(carColor)) break;
-    else carColor = "";
-  } while (!carColor);
-  carColor = formatInput(carColor);
-  carObj.color = carColor;
+    color = capitalize(prompt("Enter car color:"));
+    if (!predefinedColors.includes(color)) {
+      alert(
+        'Color must be one of predefined ("White", "Black", "Red", "Green", "Blue")'
+      );
+    }
+  } while (!predefinedColors.includes(color));
 
   do {
-    carPower = parseInt(prompt("Enter car horsepower:"));
-  } while (carPower < 0 || isNaN(carPower));
-  carObj.horsepower = carPower;
+    horsepower = parseInt(prompt("Enter car horsepower:"));
+    if (horsepower < 0 || isNaN(horsepower)) {
+      alert("Horsepower must be positive number.");
+    }
+  } while (horsepower < 0 || isNaN(horsepower));
 
-  console.log("Adding:", carObj);
+  const carToAdd = {
+    manufacturer,
+    model,
+    yearOfManufacture,
+    countryOfOrigin,
+    color,
+    horsepower,
+  };
 
-  cars.push(carObj);
+  cars.push(carToAdd);
 }
 
-// addCar();
+addCar();
 
 console.log("New cars array:", cars);
 
 //8. ispisat prosjecnu KS i auto cija KS najvise odskace od prosjecne
-function printMaxHp() {
+function getCarWithTheMostDifferenceInHorsepower() {
   const average = getAverageHorsepower();
-  let maxHp = 0;
-  let carWithMaxHp;
 
-  for (let car of cars) {
-    if (car.horsepower > maxHp) {
-      maxHp = car.horsepower;
+  let matchingIndex = 0;
+  let tempValue = 0;
+
+  cars.forEach((car, index) => {
+    if (Math.abs(car.horsepower - average) > tempValue) {
+      tempValue = Math.abs(car.horsepower - average);
+      matchingIndex = index;
     }
-  }
-  for (let car in cars) {
-    carWithMaxHp = cars.find((car) => {
-      return car.horsepower === maxHp;
-    });
-  }
+  });
+
   console.log(
-    `Average horsepower is ${average}, and car with most HP is:`,
-    carWithMaxHp
+    `Average horsepower is ${average}, and car with the most difference in horsepower is:`,
+    cars[matchingIndex]
   );
 }
 
-printMaxHp();
+getCarWithTheMostDifferenceInHorsepower();
 
 //9. napravit novi niz ferarija, formatirat tako da ubacimo povlake
 function formatFerrariCarNames() {
